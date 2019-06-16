@@ -1,0 +1,34 @@
+<h2>Trading Plans</h2>
+<p>Your trading plans</p>
+
+<div class='table-responsive'>
+    <table class='table table-striped'
+            *ngIf='tradingPlans && tradingPlans.length'>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Status</th>
+                <th>Underlying</th>
+                <th>Price</th>
+                <th>Contracts</th>
+                <th>Trend Outlook</th>
+                <th>Stop Loss</th>
+                <th>Max Risk</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let tradingPlan of tradingPlans'>
+                <td></td>
+                <td>{{ tradingPlan.status }}</td>
+                <td>{{ tradingPlan.underlying }}</td>
+                <td>{{ tradingPlan.costPerContract }}</td>
+                <td>{{ tradingPlan.numberOfContracts }}</td>
+                <td>{{ tradingPlan.underlyingTrend }}</td>
+                <td>{{ tradingPlan.stopLoss }}</td>
+                <td>{{ tradingPlan.numberOfContracts * tradingPlan.costPerContract }}</td>
+                <td>{{ tradingPlan.updatedAt | date: "MM/dd/yyyy" }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
