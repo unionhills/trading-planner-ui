@@ -31,4 +31,8 @@ export class TradingPlansComponent implements OnInit {
             (error: any) => console.log(error),
             () => {});
     }
+
+    public onNewTradingPlan() {
+
+    }
 }
