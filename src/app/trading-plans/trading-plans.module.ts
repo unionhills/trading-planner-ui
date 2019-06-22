@@ -4,9 +4,10 @@ import { CommonModule } from '@angular/common';
 import { TradingPlansRoutingModule } from './trading-plans-routing.module';
 import { TradingPlansComponent } from './trading-plans.component';
 import { TradingPlansService } from './trading-plans.service';
+import { TradingPlanDetailComponent } from '../trading-plan-detail/trading-plan-detail.component';
 
 @NgModule({
-    declarations: [TradingPlansComponent],
+    declarations: [TradingPlansComponent, TradingPlanDetailComponent],
     imports: [
         CommonModule,
         TradingPlansRoutingModule

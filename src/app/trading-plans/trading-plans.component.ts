@@ -26,7 +26,7 @@ export class TradingPlansComponent implements OnInit {
         this.tradingPlanService.getTradingPlans()
             .subscribe((tradingPlans: TradingPlan[]) => {
                 this.tradingPlans = tradingPlans;
-//              this.tradingPlan.entries = _.orderBy(this.tradingPlan.entries, ['readingDate'], ['asc']);
+//              this.tradingPlans = _.orderBy(this.tradingPlans, ['createdAt'], ['asc']);
             },
             (error: any) => console.log(error),
             () => {});
