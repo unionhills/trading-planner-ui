@@ -11,41 +11,42 @@ import { TrendOutlook, OrderStatus } from '../trading-plan.enum';
  */
 
 export class TradingPlanDto {
+  id: string;
   // For a stock, the underlying and symbol should be the same.
   // For options, the underlying would be the stock symbol
   // whilst the symbol would be the option symbol
-  readonly underlying: string;
-  readonly underlyingDescription: string;
+  underlying: string;
+  underlyingDescription: string;
 
-  readonly marketOutlook: string;
-  readonly marketTrend: TrendOutlook;
+  marketOutlook: string;
+  marketTrend: TrendOutlook;
 
-  readonly underlyingOutlook: string;
-  readonly underlyingTrend: TrendOutlook;
+  underlyingOutlook: string;
+  underlyingTrend: TrendOutlook;
 
-  readonly timeFrame: string;
-  readonly strategy: string;
+  timeFrame: string;
+  strategy: string;
 
-  readonly costPerContract: number;
-  readonly numberOfContracts: number;
+  costPerContract: number;
+  numberOfContracts: number;
 
-  readonly stopLoss: number;
-  readonly technicalStopLoss: number;
+  stopLoss: number;
+  technicalStopLoss: number;
 
-  readonly timeStop: Date;
+  timeStop: Date;
 
-  readonly limit: number;
-  readonly technicalLimit: number;
+  limit: number;
+  technicalLimit: number;
 
-  readonly plannedTradeEntryDate: Date;
-  readonly plannedTradeExitDate: Date;
+  plannedTradeEntryDate: Date;
+  plannedTradeExitDate: Date;
 
-  readonly entryReason: string;
-  readonly contingencies: string;
+  entryReason: string;
+  contingencies: string;
 
-  readonly status: OrderStatus;
-  readonly notes: string;
+  status: OrderStatus;
+  notes: string;
 
-  readonly createdAt: Date;
-  readonly updatedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
