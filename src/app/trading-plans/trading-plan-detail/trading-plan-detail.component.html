@@ -1,0 +1,19 @@
+<header class="page-header">
+  <div class="container-fluid">
+    <h2 class="no-margin-bottom">New Trading Plan Details</h2>
+  </div>
+</header>
+
+<form [formGroup]="tradingPlanEntryForm" (submit)="saveTradingPlan()">
+  <div class="form-group">
+    <label for="underlying">Symbol</label>
+    <input formControlName="underlying" id="underlying" required class="form-control w-25"/>
+  </div>
+
+  <div class="form-group">
+    <label for="notes">Notes</label>
+    <input formControlName="notes" id="notes" class="form-control w-25"/>
+  </div>
+
+  <button type="submit" name="save" class="btn btn-primary">Save</button>
+</form>
