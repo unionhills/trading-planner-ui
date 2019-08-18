@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-trading-plan-detail',
@@ -6,8 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./trading-plan-detail.component.css']
 })
 export class TradingPlanDetailComponent implements OnInit {
+  tradingPlanEntryForm: FormGroup;
 
-  constructor() { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) { }
+
+  private createForm() {
+    this.tradingPlanEntryForm = this.formBuilder.group({
+      underlying:       ['', Validators.required],
+      notes:            ['']
+    });
+  }
 
   ngOnInit() {
   }

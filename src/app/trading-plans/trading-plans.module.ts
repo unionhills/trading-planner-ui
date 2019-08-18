@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TradingPlansRoutingModule } from './trading-plans-routing.module';
 import { TradingPlansComponent } from './trading-plans.component';
@@ -10,7 +11,9 @@ import { TradingPlanDetailComponent } from '../trading-plan-detail/trading-plan-
     declarations: [TradingPlansComponent, TradingPlanDetailComponent],
     imports: [
         CommonModule,
-        TradingPlansRoutingModule
+        TradingPlansRoutingModule,
+        FormsModule,
+        ReactiveFormsModule
     ],
     providers: [
         TradingPlansService
