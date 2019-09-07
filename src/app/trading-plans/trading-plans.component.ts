@@ -1,6 +1,7 @@
 //import * as _ from "lodash";
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { TradingPlan } from './model/trading-plan.model';
 import { TradingPlansService } from './trading-plans.service';
@@ -14,6 +15,7 @@ export class TradingPlansComponent implements OnInit {
     tradingPlans: TradingPlan[];
 
     constructor(
+        private router: Router,
         private tradingPlanService: TradingPlansService
     ) {
     }
@@ -33,6 +35,6 @@ export class TradingPlansComponent implements OnInit {
     }
 
     public onNewTradingPlan() {
-
+        this.router.navigateByUrl('/trading-plan');
     }
 }

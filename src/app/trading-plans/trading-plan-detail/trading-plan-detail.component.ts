@@ -25,10 +25,12 @@ export class TradingPlanDetailComponent implements OnInit {
     });
   }
 
-  saveTradingPlan() {
-  }
-
   ngOnInit() {
+    this.createForm();
   }
 
+  saveTradingPlan() {
+    console.log("TradingPlanDetailComponent::saveTradingPlan()");
+    this.router.navigateByUrl('/trading-plans');
+  }
 }
