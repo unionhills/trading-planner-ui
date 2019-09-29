@@ -6,6 +6,8 @@ import { TradingPlanDto } from './trading-plans/dto/trading-plan.dto';
   providedIn: 'root'
 })
 export class InMemoryDataService {
+  private nextId: number = 0;
+  
   createDb() {
     const tradingPlans = this.createTradingPlans(10);
     const db = { 'trading-plans': tradingPlans };
@@ -36,10 +38,11 @@ export class InMemoryDataService {
   public generateRandomTradingPlanDto(id: string): TradingPlanDto {
     const underlying = this.generateRandomAlphaString(4).toUpperCase();
     const price = this.generateRandomIntInclusive(30, 100);
+    const idKeyValuePairWithComma = id ? `"id": "${id}",` : "";
 
     const tradingPlanDto: TradingPlanDto = JSON.parse(
-      `{
-      "id": "${id}",
+    `{
+      ${idKeyValuePairWithComma}
       "underlying": "${underlying}",
       "underlyingDescription": "${underlying} Corporation",
       "marketOutlook" : "S&P is trending higher",
@@ -80,8 +83,10 @@ export class InMemoryDataService {
 
   public genId(): string {
     console.log('InMemoryDataService::genId()');
+    const newId = (++this.nextId).toString();
+    console.log('newId = ' + newId);
 
-    return "12";
+    return newId;
   }
 
   private createTradingPlans(count: number): TradingPlanDto[] {
@@ -89,7 +94,7 @@ export class InMemoryDataService {
     const tradingPlans: TradingPlanDto[] = new Array<TradingPlanDto>(count);
 
     for (let i: number = 0; i < count; i++) {
-      tradingPlans[i] = this.generateRandomTradingPlanDto((i + 1).toString());
+      tradingPlans[i] = this.generateRandomTradingPlanDto(this.genId());
 
       console.log(tradingPlans[i]);
     }

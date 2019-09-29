@@ -41,11 +41,18 @@ export class TradingPlanDetailComponent implements OnInit {
       return;
     }
 
-    const tradingPlan: TradingPlan = this.inMemoryDataService.generateRandomTradingPlanDto(undefined);
+    const tradingPlan: TradingPlan = this.inMemoryDataService.generateRandomTradingPlanDto(null);
     tradingPlan.underlying = this.tradingPlanEntryForm.value.underlying;
     tradingPlan.notes = this.tradingPlanEntryForm.value.notes;
 
-    this.tradingPlanService.createTradingPlan(tradingPlan);
-//  this.router.navigateByUrl('/trading-plans');
+    this.tradingPlanService.createTradingPlan(tradingPlan).subscribe(
+      (tradingPlan: TradingPlan) => {
+        console.log('TradingPlanDetailComponent::saveTradingPlan(): ' + JSON.stringify(tradingPlan));
+      },
+      (error: any) => console.log(error),
+      () => {}
+    );
+
+    this.router.navigateByUrl('/trading-plans');
   }
 }
