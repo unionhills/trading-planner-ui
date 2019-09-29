@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { TradingPlanDto } from './trading-plans/dto/trading-plan.dto';
 
 @Injectable({
@@ -7,8 +8,9 @@ import { TradingPlanDto } from './trading-plans/dto/trading-plan.dto';
 export class InMemoryDataService {
   createDb() {
     const tradingPlans = this.createTradingPlans(10);
+    const db = { 'trading-plans': tradingPlans };
 
-    return { 'trading-plans': tradingPlans };
+    return of(db);
   }
 
   private generateRandomDate(min: Date, max: Date): Date {
@@ -16,14 +18,14 @@ export class InMemoryDataService {
       min.getTime() + Math.random() * (max.getTime() - min.getTime())
     );
   }
-  
+
   private generateRandomIntInclusive(min: number, max: number): number {
     min = Math.ceil(min);
     max = Math.floor(max);
-  
+
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
-  
+
   private generateRandomAlphaString(len: number): string {
     return Math.random()
       .toString(36)
@@ -31,7 +33,7 @@ export class InMemoryDataService {
       .substr(0, len);
   }
 
-  private generateRandomTradingPlanDto(id: string): TradingPlanDto {
+  public generateRandomTradingPlanDto(id: string): TradingPlanDto {
     const underlying = this.generateRandomAlphaString(4).toUpperCase();
     const price = this.generateRandomIntInclusive(30, 100);
 
@@ -72,22 +74,26 @@ export class InMemoryDataService {
       "updatedAt": "${new Date().toISOString()}"
     }`
     );
-  
+
     return tradingPlanDto;
   }
 
-  private createTradingPlans(
-    count: number
-  ): TradingPlanDto[] {
+  public genId(): string {
+    console.log('InMemoryDataService::genId()');
+
+    return "12";
+  }
+
+  private createTradingPlans(count: number): TradingPlanDto[] {
     let tradingPlanDto: TradingPlanDto;
     const tradingPlans: TradingPlanDto[] = new Array<TradingPlanDto>(count);
 
     for (let i: number = 0; i < count; i++) {
-      tradingPlans[i] = this.generateRandomTradingPlanDto((i+1).toString());
+      tradingPlans[i] = this.generateRandomTradingPlanDto((i + 1).toString());
 
       console.log(tradingPlans[i]);
     }
-  
+
     return tradingPlans;
   }
 }
