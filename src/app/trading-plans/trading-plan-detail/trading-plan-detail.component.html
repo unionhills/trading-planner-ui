@@ -3,16 +3,97 @@
     <h2 class="no-margin-bottom">New Trading Plan Details</h2>
   </div>
 </header>
-
+<br />
 <form [formGroup]="tradingPlanEntryForm" (submit)="saveTradingPlan()">
   <div class="form-group">
     <label for="underlying">Symbol</label>
-    <input formControlName="underlying" id="underlying" required class="form-control w-25"/>
+    <input formControlName="underlying" id="underlying" type="text" required class="form-control w-25"/>
+  </div>
+  <div class="form-group">
+    <label for="underlyingDescription">Symbol Description</label>
+    <input formControlName="underlyingDescription" id="underlyingDescription" type="text" class="form-control w-100"/>
+  </div>
+
+  <div class="form-group">
+    <label for="marketOutlook">Market Outlook</label>
+    <input formControlName="marketOutlook" id="marketOutlook" type="text" class="form-control w-25"/>
+  </div>
+  <div class="form-group">
+    <label for="marketTrend">Market Trend</label>
+    <input formControlName="marketTrend" id="marketTrend" type="text" class="form-control w-25"/>
+  </div>
+
+  <div class="form-group">
+    <label for="underlyingOutlook">Symbol Outlook</label>
+    <input formControlName="underlyingOutlook" id="underlyingOutlook" type="text" class="form-control w-25"/>
+  </div>
+  <div class="form-group">
+    <label for="underlyingTrend">Symbol Trend</label>
+    <input formControlName="underlyingTrend" id="underlyingTrend" type="text" class="form-control w-25"/>
+  </div>
+
+  <div class="form-group">
+    <label for="timeFrame">Timeframe</label>
+    <input formControlName="timeFrame" id="timeFrame" type="text" class="form-control w-25"/>
+  </div>
+  <div class="form-group">
+    <label for="strategy">Strategy</label>
+    <input formControlName="strategy" id="strategy" type="text" class="form-control w-25"/>
+  </div>
+
+  <div class="form-group">
+    <label for="costPerContract">Price</label>
+    <input formControlName="costPerContract" id="costPerContract" type="text" class="form-control w-25"/>
+
+    <label for="numberOfContracts"># of Contracts</label>
+    <input formControlName="numberOfContracts" id="numberOfContracts" type="text" class="form-control w-25"/>
+  </div>
+
+  <div class="form-group">
+    <label for="stopLoss">Stop Loss</label>
+    <input formControlName="stopLoss" id="stopLoss" type="text" class="form-control w-25"/>
+
+    <label for="technicalStopLoss">Technical Stop Loss</label>
+    <input formControlName="technicalStopLoss" id="technicalStopLoss" type="text" class="form-control w-25"/>
+
+    <label for="timeStop">Symbol</label>
+    <input formControlName="timeStop" id="timeStop" type="text" class="form-control w-25"/>
+  </div>
+
+  <div class="form-group">
+    <label for="limit">Limit</label>
+    <input formControlName="limit" id="limit" type="text" class="form-control w-25"/>
+  </div>
+  <div class="form-group">
+    <label for="technicalLimit">Technical Limit</label>
+    <input formControlName="technicalLimit" id="technicalLimit" type="text" class="form-control w-25"/>
+  </div>
+
+  <div class="form-group">
+    <label for="plannedTradeEntryDate">Planned Entry Date</label>
+    <input formControlName="plannedTradeEntryDate" id="plannedTradeEntryDate" type="text" class="form-control w-25"/>
+  </div>
+  <div class="form-group">
+    <label for="plannedTradeExitDate">Planned Exit Date</label>
+    <input formControlName="plannedTradeExitDate" id="plannedTradeExitDate" type="text" class="form-control w-25"/>
+  </div>
+
+  <div class="form-group">
+    <label for="entryReason">Entry Reason</label>
+    <input formControlName="entryReason" id="entryReason" type="text" class="form-control w-25"/>
+  </div>
+  <div class="form-group">
+    <label for="contingencies">Contingencies</label>
+    <input formControlName="contingencies" id="contingencies" type="text" class="form-control w-25"/>
+  </div>
+  <div class="form-group">
+    <label for="status">Status</label>
+    <input formControlName="status" id="status" type="text" class="form-control w-25"/>
   </div>
 
   <div class="form-group">
     <label for="notes">Notes</label>
-    <input formControlName="notes" id="notes" type="text" class="form-control w-25"/>
+    <textarea formControlName="notes" id="notes" rows="3" class="form-control w-25"></textarea>
   </div>
 
   <button type="submit" name="save" class="btn btn-primary">Save</button>

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { TradingPlan } from '../model/trading-plan.model';
+import { TrendOutlook, OrderStatus } from '../trading-plan.enum';
 import { TradingPlansService } from '../trading-plans.service';
 import { InMemoryDataService } from '../../in-memory-data.service';
 
@@ -25,6 +26,27 @@ export class TradingPlanDetailComponent implements OnInit {
   private createForm() {
     this.tradingPlanEntryForm = this.formBuilder.group({
       underlying: ['', Validators.required],
+      underlyingDescription: [''],
+      marketOutlook: [TrendOutlook.Unclear],
+      marketTrend: [TrendOutlook.Unclear],
+      underlyingOutlook: [TrendOutlook.Unclear],
+      underlyingTrend: [TrendOutlook.Unclear],
+      timeFrame: [''],
+      strategy: [''],
+      costPerContract: ['', Validators.compose([Validators.required,
+                                                Validators.min(1)])],
+      numberOfContracts: ['', Validators.compose([Validators.required,
+                                                  Validators.min(1)])],
+      stopLoss: [''],
+      technicalStopLoss: [''],
+      timeStop: [''],
+      limit: [''],
+      technicalLimit: [''],
+      plannedTradeEntryDate: [''],
+      plannedTradeExitDate: [''],
+      entryReason: [''],
+      contingencies: [''],
+      status: [''],
       notes: ['']
     });
   }
@@ -42,7 +64,35 @@ export class TradingPlanDetailComponent implements OnInit {
     }
 
     const tradingPlan: TradingPlan = this.inMemoryDataService.generateRandomTradingPlanDto(null);
+
     tradingPlan.underlying = this.tradingPlanEntryForm.value.underlying;
+    tradingPlan.underlyingDescription = this.tradingPlanEntryForm.value.underlyingDescription;
+
+    tradingPlan.marketOutlook = this.tradingPlanEntryForm.value.marketOutlook;
+    tradingPlan.marketTrend = this.tradingPlanEntryForm.value.marketTrend;
+
+    tradingPlan.underlyingOutlook = this.tradingPlanEntryForm.value.underlyingOutlook;
+    tradingPlan.underlyingTrend = this.tradingPlanEntryForm.value.underlyingTrend;
+
+    tradingPlan.timeFrame = this.tradingPlanEntryForm.value.timeFrame;
+    tradingPlan.strategy = this.tradingPlanEntryForm.value.strategy;
+
+    tradingPlan.costPerContract = this.tradingPlanEntryForm.value.costPerContract;
+    tradingPlan.numberOfContracts = this.tradingPlanEntryForm.value.numberOfContracts;
+
+    tradingPlan.stopLoss = this.tradingPlanEntryForm.value.stopLoss;
+    tradingPlan.technicalStopLoss = this.tradingPlanEntryForm.value.technicalStopLoss;
+
+    tradingPlan.limit = this.tradingPlanEntryForm.value.limit;
+    tradingPlan.technicalLimit = this.tradingPlanEntryForm.value.technicalLimit;
+
+    tradingPlan.plannedTradeEntryDate = this.tradingPlanEntryForm.value.plannedTradeEntryDate;
+    tradingPlan.plannedTradeExitDate = this.tradingPlanEntryForm.value.plannedTradeExitDate;
+
+    tradingPlan.entryReason = this.tradingPlanEntryForm.value.entryReason;
+    tradingPlan.contingencies = this.tradingPlanEntryForm.value.contingencies;
+
+    tradingPlan.status = this.tradingPlanEntryForm.value.status;
     tradingPlan.notes = this.tradingPlanEntryForm.value.notes;
 
     this.tradingPlanService.createTradingPlan(tradingPlan).subscribe(
