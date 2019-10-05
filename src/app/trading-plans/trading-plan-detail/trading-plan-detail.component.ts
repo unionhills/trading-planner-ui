@@ -7,7 +7,6 @@ import { TrendOutlook, OrderStatus } from '../trading-plan.enum';
 import { TradingPlansService } from '../trading-plans.service';
 import { InMemoryDataService } from '../../in-memory-data.service';
 
-
 @Component({
   selector: 'app-trading-plan-detail',
   templateUrl: './trading-plan-detail.component.html',
@@ -24,30 +23,38 @@ export class TradingPlanDetailComponent implements OnInit {
   ) {}
 
   private createForm() {
+    const sampleTradingPlan = this.inMemoryDataService.generateRandomTradingPlanDto(
+      null
+    );
+
     this.tradingPlanEntryForm = this.formBuilder.group({
-      underlying: ['', Validators.required],
-      underlyingDescription: [''],
-      marketOutlook: [TrendOutlook.Unclear],
-      marketTrend: [TrendOutlook.Unclear],
-      underlyingOutlook: [TrendOutlook.Unclear],
-      underlyingTrend: [TrendOutlook.Unclear],
-      timeFrame: [''],
-      strategy: [''],
-      costPerContract: ['', Validators.compose([Validators.required,
-                                                Validators.min(1)])],
-      numberOfContracts: ['', Validators.compose([Validators.required,
-                                                  Validators.min(1)])],
-      stopLoss: [''],
-      technicalStopLoss: [''],
-      timeStop: [''],
-      limit: [''],
-      technicalLimit: [''],
-      plannedTradeEntryDate: [''],
-      plannedTradeExitDate: [''],
-      entryReason: [''],
-      contingencies: [''],
-      status: [''],
-      notes: ['']
+      underlying: [sampleTradingPlan.underlying, Validators.required],
+      underlyingDescription: [sampleTradingPlan.underlyingDescription],
+      marketOutlook: [sampleTradingPlan.marketOutlook],
+      marketTrend: [sampleTradingPlan.marketTrend],
+      underlyingOutlook: [sampleTradingPlan.underlyingOutlook],
+      underlyingTrend: [sampleTradingPlan.underlyingTrend],
+      timeFrame: [sampleTradingPlan.timeFrame],
+      strategy: [sampleTradingPlan.strategy],
+      costPerContract: [
+        sampleTradingPlan.costPerContract,
+        Validators.compose([Validators.required, Validators.min(1)])
+      ],
+      numberOfContracts: [
+        sampleTradingPlan.numberOfContracts,
+        Validators.compose([Validators.required, Validators.min(1)])
+      ],
+      stopLoss: [sampleTradingPlan.stopLoss],
+      technicalStopLoss: [sampleTradingPlan.technicalStopLoss],
+      timeStop: [sampleTradingPlan.timeStop],
+      limit: [sampleTradingPlan.limit],
+      technicalLimit: [sampleTradingPlan.technicalLimit],
+      plannedTradeEntryDate: [sampleTradingPlan.plannedTradeEntryDate],
+      plannedTradeExitDate: [sampleTradingPlan.plannedTradeExitDate],
+      entryReason: [sampleTradingPlan.entryReason],
+      contingencies: [sampleTradingPlan.contingencies],
+      status: [sampleTradingPlan.status],
+      notes: [sampleTradingPlan.notes]
     });
   }
 
@@ -63,7 +70,9 @@ export class TradingPlanDetailComponent implements OnInit {
       return;
     }
 
-    const tradingPlan: TradingPlan = this.inMemoryDataService.generateRandomTradingPlanDto(null);
+    const tradingPlan: TradingPlan = this.inMemoryDataService.generateRandomTradingPlanDto(
+      null
+    );
 
     tradingPlan.underlying = this.tradingPlanEntryForm.value.underlying;
     tradingPlan.underlyingDescription = this.tradingPlanEntryForm.value.underlyingDescription;
@@ -97,12 +106,14 @@ export class TradingPlanDetailComponent implements OnInit {
 
     this.tradingPlanService.createTradingPlan(tradingPlan).subscribe(
       (tradingPlan: TradingPlan) => {
-        console.log('TradingPlanDetailComponent::saveTradingPlan(): ' + JSON.stringify(tradingPlan));
+        console.log(
+          'TradingPlanDetailComponent::saveTradingPlan(): ' +
+            JSON.stringify(tradingPlan)
+        );
+        this.router.navigateByUrl('/trading-plans');
       },
       (error: any) => console.log(error),
       () => {}
     );
-
-    this.router.navigateByUrl('/trading-plans');
   }
 }
