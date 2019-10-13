@@ -5,7 +5,8 @@ import { TradingPlanDetailComponent } from './trading-plan-detail/trading-plan-d
 
 const routes: Routes = [
   { path: 'trading-plans', component: TradingPlansComponent },
-  { path: 'trading-plan', component: TradingPlanDetailComponent }
+  { path: 'trading-plan', component: TradingPlanDetailComponent },
+  { path: 'trading-plan/:id', component: TradingPlanDetailComponent }
 ];
 
 @NgModule({

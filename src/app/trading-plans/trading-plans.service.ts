@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse
+} from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 
@@ -10,7 +14,9 @@ import { TradingPlan } from './model/trading-plan.model';
 })
 export class TradingPlansService {
   private serviceUrl = 'http://localhost:3000/api/trading-plans';
-  private readonly cudOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
+  private readonly cudOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
   constructor(private http: HttpClient) {}
 
@@ -23,13 +29,34 @@ export class TradingPlansService {
     );
   }
 
-  public createTradingPlan(tradingPlan: TradingPlan): Observable<TradingPlan> {
-    console.log('TradingPlansService::createTradingPlan(): ' + JSON.stringify(tradingPlan));
+  public getTradingPlan(tradingPlanId: string): Observable<TradingPlan> {
+    console.log(`TradingPlansService::getTradingPlan(${tradingPlanId})`);
 
-    return this.http.post<TradingPlan>(this.serviceUrl, tradingPlan, this.cudOptions).pipe(
-      tap(data => console.log('createTradingPlan(): ' + JSON.stringify(data))),
-      catchError(this.handleError<any>(`createTradingPlan`))
+    return this.http
+      .get<TradingPlan>(`${this.serviceUrl}/${tradingPlanId}`)
+      .pipe(
+        tap(data =>
+          console.log(
+            `getTradingPlan(${tradingPlanId}): ` + JSON.stringify(data)
+          )
+        ),
+        catchError(this.handleError<TradingPlan>(`getTradingPlans`))
+      );
+  }
+
+  public createTradingPlan(tradingPlan: TradingPlan): Observable<TradingPlan> {
+    console.log(
+      'TradingPlansService::createTradingPlan(): ' + JSON.stringify(tradingPlan)
     );
+
+    return this.http
+      .post<TradingPlan>(this.serviceUrl, tradingPlan, this.cudOptions)
+      .pipe(
+        tap(data =>
+          console.log('createTradingPlan(): ' + JSON.stringify(data))
+        ),
+        catchError(this.handleError<any>(`createTradingPlan`))
+      );
   }
 
   /**

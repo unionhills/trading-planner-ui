@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { TradingPlan } from '../model/trading-plan.model';
 import { TrendOutlook, OrderStatus } from '../trading-plan.enum';
@@ -14,52 +14,79 @@ import { InMemoryDataService } from '../../in-memory-data.service';
 })
 export class TradingPlanDetailComponent implements OnInit {
   tradingPlanEntryForm: FormGroup;
+  tradingPlan: TradingPlan;
+  tradingPlanId: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private tradingPlanService: TradingPlansService,
     private router: Router,
+    private route: ActivatedRoute,
     private inMemoryDataService: InMemoryDataService
-  ) {}
+  ) {
+    this.route.paramMap.subscribe(params => {
+      this.tradingPlanId = params.get('id');
+      console.log(
+        `TradingPlanDetailComponent route params: ${this.tradingPlanId}`
+      );
+    });
+  }
 
-  private createForm() {
-    const sampleTradingPlan = this.inMemoryDataService.generateRandomTradingPlanDto(
-      null
-    );
+  private populateForm(mutableTradingPlan?: TradingPlan) {
+    if (!mutableTradingPlan)
+      mutableTradingPlan = this.inMemoryDataService.generateRandomTradingPlanDto(
+        null
+      );
 
     this.tradingPlanEntryForm = this.formBuilder.group({
-      underlying: [sampleTradingPlan.underlying, Validators.required],
-      underlyingDescription: [sampleTradingPlan.underlyingDescription],
-      marketOutlook: [sampleTradingPlan.marketOutlook],
-      marketTrend: [sampleTradingPlan.marketTrend],
-      underlyingOutlook: [sampleTradingPlan.underlyingOutlook],
-      underlyingTrend: [sampleTradingPlan.underlyingTrend],
-      timeFrame: [sampleTradingPlan.timeFrame],
-      strategy: [sampleTradingPlan.strategy],
+      underlying: [mutableTradingPlan.underlying, Validators.required],
+      underlyingDescription: [mutableTradingPlan.underlyingDescription],
+      marketOutlook: [mutableTradingPlan.marketOutlook],
+      marketTrend: [mutableTradingPlan.marketTrend],
+      underlyingOutlook: [mutableTradingPlan.underlyingOutlook],
+      underlyingTrend: [mutableTradingPlan.underlyingTrend],
+      timeFrame: [mutableTradingPlan.timeFrame],
+      strategy: [mutableTradingPlan.strategy],
       costPerContract: [
-        sampleTradingPlan.costPerContract,
+        mutableTradingPlan.costPerContract,
         Validators.compose([Validators.required, Validators.min(1)])
       ],
       numberOfContracts: [
-        sampleTradingPlan.numberOfContracts,
+        mutableTradingPlan.numberOfContracts,
         Validators.compose([Validators.required, Validators.min(1)])
       ],
-      stopLoss: [sampleTradingPlan.stopLoss],
-      technicalStopLoss: [sampleTradingPlan.technicalStopLoss],
-      timeStop: [sampleTradingPlan.timeStop],
-      limit: [sampleTradingPlan.limit],
-      technicalLimit: [sampleTradingPlan.technicalLimit],
-      plannedTradeEntryDate: [sampleTradingPlan.plannedTradeEntryDate],
-      plannedTradeExitDate: [sampleTradingPlan.plannedTradeExitDate],
-      entryReason: [sampleTradingPlan.entryReason],
-      contingencies: [sampleTradingPlan.contingencies],
-      status: [sampleTradingPlan.status],
-      notes: [sampleTradingPlan.notes]
+      stopLoss: [mutableTradingPlan.stopLoss],
+      technicalStopLoss: [mutableTradingPlan.technicalStopLoss],
+      timeStop: [mutableTradingPlan.timeStop],
+      limit: [mutableTradingPlan.limit],
+      technicalLimit: [mutableTradingPlan.technicalLimit],
+      plannedTradeEntryDate: [mutableTradingPlan.plannedTradeEntryDate],
+      plannedTradeExitDate: [mutableTradingPlan.plannedTradeExitDate],
+      entryReason: [mutableTradingPlan.entryReason],
+      contingencies: [mutableTradingPlan.contingencies],
+      status: [mutableTradingPlan.status],
+      notes: [mutableTradingPlan.notes]
     });
   }
 
   ngOnInit() {
-    this.createForm();
+    if (this.tradingPlanId) {
+      // ToDo: Figure out how to load a form from Observable data
+      //    this.populateTradingPlan(this.tradingPlanId);
+    } else {
+      this.populateForm();
+    }
+  }
+
+  private populateTradingPlan(tradingPlanId: string) {
+    this.tradingPlanService.getTradingPlan(tradingPlanId).subscribe(
+      (tradingPlan: TradingPlan) => {
+        this.tradingPlan = tradingPlan;
+        this.populateForm(tradingPlan);
+      },
+      (error: any) => console.log(error),
+      () => {}
+    );
   }
 
   saveTradingPlan() {
