@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 
 import { TradingPlan } from '../model/trading-plan.model';
 import { TrendOutlook, OrderStatus } from '../trading-plan.enum';
@@ -14,7 +16,7 @@ import { InMemoryDataService } from '../../in-memory-data.service';
 })
 export class TradingPlanDetailComponent implements OnInit {
   tradingPlanEntryForm: FormGroup;
-  tradingPlan: TradingPlan;
+  tradingPlan: Observable<TradingPlan>;
   tradingPlanId: string;
 
   constructor(
@@ -32,61 +34,58 @@ export class TradingPlanDetailComponent implements OnInit {
     });
   }
 
-  private populateForm(mutableTradingPlan?: TradingPlan) {
-    if (!mutableTradingPlan)
-      mutableTradingPlan = this.inMemoryDataService.generateRandomTradingPlanDto(
-        null
-      );
-
+  private initializeForm() {
     this.tradingPlanEntryForm = this.formBuilder.group({
-      underlying: [mutableTradingPlan.underlying, Validators.required],
-      underlyingDescription: [mutableTradingPlan.underlyingDescription],
-      marketOutlook: [mutableTradingPlan.marketOutlook],
-      marketTrend: [mutableTradingPlan.marketTrend],
-      underlyingOutlook: [mutableTradingPlan.underlyingOutlook],
-      underlyingTrend: [mutableTradingPlan.underlyingTrend],
-      timeFrame: [mutableTradingPlan.timeFrame],
-      strategy: [mutableTradingPlan.strategy],
+      underlying: ['', Validators.required],
+      underlyingDescription: [''],
+      marketOutlook: [''],
+      marketTrend: [''],
+      underlyingOutlook: [''],
+      underlyingTrend: [''],
+      timeFrame: [''],
+      strategy: [''],
       costPerContract: [
-        mutableTradingPlan.costPerContract,
+        '',
         Validators.compose([Validators.required, Validators.min(1)])
       ],
       numberOfContracts: [
-        mutableTradingPlan.numberOfContracts,
+        '',
         Validators.compose([Validators.required, Validators.min(1)])
       ],
-      stopLoss: [mutableTradingPlan.stopLoss],
-      technicalStopLoss: [mutableTradingPlan.technicalStopLoss],
-      timeStop: [mutableTradingPlan.timeStop],
-      limit: [mutableTradingPlan.limit],
-      technicalLimit: [mutableTradingPlan.technicalLimit],
-      plannedTradeEntryDate: [mutableTradingPlan.plannedTradeEntryDate],
-      plannedTradeExitDate: [mutableTradingPlan.plannedTradeExitDate],
-      entryReason: [mutableTradingPlan.entryReason],
-      contingencies: [mutableTradingPlan.contingencies],
-      status: [mutableTradingPlan.status],
-      notes: [mutableTradingPlan.notes]
+      stopLoss: [''],
+      technicalStopLoss: [''],
+      timeStop: [''],
+      limit: [''],
+      technicalLimit: [''],
+      plannedTradeEntryDate: [''],
+      plannedTradeExitDate: [''],
+      entryReason: [''],
+      contingencies: [''],
+      status: [''],
+      notes: ['']
     });
   }
 
   ngOnInit() {
+    this.initializeForm();
+
     if (this.tradingPlanId) {
-      // ToDo: Figure out how to load a form from Observable data
-      //    this.populateTradingPlan(this.tradingPlanId);
-    } else {
-      this.populateForm();
+      this.populateTradingPlan(this.tradingPlanId);
+    }
+    else {
+      const randomTradingPlan = this.inMemoryDataService.generateRandomTradingPlanDto(
+        null
+      );
+
+      this.tradingPlan = of(randomTradingPlan);
+      this.tradingPlanEntryForm.patchValue(randomTradingPlan);
     }
   }
 
   private populateTradingPlan(tradingPlanId: string) {
-    this.tradingPlanService.getTradingPlan(tradingPlanId).subscribe(
-      (tradingPlan: TradingPlan) => {
-        this.tradingPlan = tradingPlan;
-        this.populateForm(tradingPlan);
-      },
-      (error: any) => console.log(error),
-      () => {}
-    );
+    this.tradingPlan = this.tradingPlanService
+      .getTradingPlan(tradingPlanId)
+      .pipe(tap(plan => this.tradingPlanEntryForm.patchValue(plan)));
   }
 
   saveTradingPlan() {

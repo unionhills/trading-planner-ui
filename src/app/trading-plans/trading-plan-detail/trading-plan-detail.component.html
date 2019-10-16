@@ -4,7 +4,7 @@
   </div>
 </header>
 <br />
-<form [formGroup]="tradingPlanEntryForm" (submit)="saveTradingPlan()">
+<form *ngIf="tradingPlan | async; else loading" [formGroup]="tradingPlanEntryForm" (submit)="saveTradingPlan()">
   <div class="container-fluid">
     <div class="row">
       <div class="form-group col-sm-4">
@@ -132,5 +132,8 @@
       </div>
     </div>
   </div>
-
 </form>
+
+<ng-template #loading>
+  Loading Trading Plan...
+</ng-template>

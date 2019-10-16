@@ -31,7 +31,7 @@
       <tr *ngFor='let tradingPlan of tradingPlans'>
         <td></td>
         <td>{{ tradingPlan.status }}</td>
-        <td>{{ tradingPlan.underlying }}</td>
+        <td><a [routerLink]="['/trading-plan', tradingPlan.id]">{{ tradingPlan.underlying }}</a></td>
         <td>{{ tradingPlan.costPerContract }}</td>
         <td>{{ tradingPlan.numberOfContracts }}</td>
         <td>{{ tradingPlan.underlyingTrend }}</td>
