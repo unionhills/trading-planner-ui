@@ -13,7 +13,7 @@ import { InMemoryDataService } from '../in-memory-data.service';
   imports: [
     CommonModule,
     TradingPlansRoutingModule,
-    FormsModule,
+//  FormsModule,
     ReactiveFormsModule
   ],
   providers: [TradingPlansService, InMemoryDataService]
